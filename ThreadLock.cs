@@ -11,10 +11,7 @@
 namespace EmptyWindowsService {
 
     #region Using directives
-    using System;
-    using System.Text;
     using System.Threading;
-    using System.Collections.Generic;
     #endregion
 
     /// <summary>
@@ -110,7 +107,7 @@ namespace EmptyWindowsService {
             // Obtain thread-safe lock for this block
             lock (this) {
                 this.ThreadFlag = true;       // Set the ThreadFlag to true, so we clear the semaphore
-                Monitor.Pulse(this);           // Pulse the first thread waiting on this monitor
+                Monitor.Pulse(this);          // Pulse the first thread waiting on this monitor
 
                 // Coerce the current thread to yield - so it doesn't force-grab ThreadFlag in the same processor iteration
                 Thread.Sleep(0);
@@ -124,7 +121,7 @@ namespace EmptyWindowsService {
             // Obtain thread-safe lock for this block
             lock (this) {
                 this.ThreadFlag = true;       // Set the ThreadFlag to true, so we clear the semaphore
-                Monitor.PulseAll(this);        // Pulse all threads waiting on this monitor
+                Monitor.PulseAll(this);       // Pulse all threads waiting on this monitor
 
                 // Coerce the current thread to yield - so it doesn't force-grab ThreadFlag in the same processor iteration
                 Thread.Sleep(0);

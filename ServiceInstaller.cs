@@ -11,7 +11,6 @@
 namespace EmptyWindowsService {
 
     #region Using directives
-    using System;
     using System.ComponentModel;
     using System.Configuration.Install;
     #endregion

@@ -120,9 +120,6 @@ namespace EmptyWindowsService {
             // <summary>Event log status message to be written when Stop is clicked and a worker may be busy.</summary>
             internal const string FlaggingThreadPoolStart = "Attempting to shut down service, waiting for a busy worker";
 
-            /// <summary>Status message for Post Daemon object being called to perform tasks</summary>
-            internal const string PostDaemonSingletonInService = "Post Daemon instance in service, performing tasks";
-
             /// <summary>Service first run has been scheduled for</summary>
             internal const string ServiceFirstRunScheduledFor = "Service first run scheduled for: {0}";
 
@@ -258,9 +255,6 @@ namespace EmptyWindowsService {
 
             /// <summary>Whether this application needs to force the interval between runs?</summary>
             internal const string ForceInterval = "ForceInterval";
-
-            /// <summary>Whether this application needs to force create an email and send it out once when the system comes up</summary>
-            internal const string DebugTestRunOneTime = "DebugTestRunOneTime";
 
             #region Database class
             /// <summary>

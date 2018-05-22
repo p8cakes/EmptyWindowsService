@@ -12,13 +12,9 @@ namespace EmptyWindowsService {
 
     #region Using directives
     using System;
-    using System.Collections.Generic;
     using System.Configuration;
     using System.Globalization;
-    using System.IO;
-    using System.Linq;
     using System.Text;
-    using System.Threading.Tasks;
     #endregion
 
     #region ConfigData class
@@ -49,20 +45,18 @@ namespace EmptyWindowsService {
             this.Duration = 900000d;
 
             // Parse TimerDuration from config, if defined
-            ulong confDuration;
             var timerDuration = ConfigurationManager.AppSettings[Constants.Configuration.TimerDuration];
 
-            if (ulong.TryParse(timerDuration, out confDuration)) {
+            if (ulong.TryParse(timerDuration, out ulong confDuration)) {
                 this.Duration = confDuration * Constants.Thousand;
             } else {
                 throw new ConfigurationErrorsException(string.Format(Constants.Messages.MissingOrInvalidTimerDuration, timerDuration ?? Constants.Null));
             }
 
             // Parse logVerbose from config, if defined
-            LogLevels logLevel;
             var logVerbose = ConfigurationManager.AppSettings[Constants.Configuration.LogLevel];
 
-            if (!string.IsNullOrEmpty(logVerbose) && (Enum.TryParse(logVerbose, out logLevel))) {
+            if (!string.IsNullOrEmpty(logVerbose) && (Enum.TryParse(logVerbose, out LogLevels logLevel))) {
                 this.LogLevel = logLevel;
             }
 
@@ -72,24 +66,16 @@ namespace EmptyWindowsService {
             }
 
             // Get run once setting from config
-            bool runOnce;
-            if (bool.TryParse(ConfigurationManager.AppSettings[Constants.Configuration.RunOnce], out runOnce)) {
+            if (bool.TryParse(ConfigurationManager.AppSettings[Constants.Configuration.RunOnce], out bool runOnce)) {
                 this.RunOnce = runOnce;
             }
 
             // Get force interval setting from config
-            bool forceInterval;
-            if (bool.TryParse(ConfigurationManager.AppSettings[Constants.Configuration.ForceInterval], out forceInterval)) {
+            if (bool.TryParse(ConfigurationManager.AppSettings[Constants.Configuration.ForceInterval], out bool forceInterval)) {
                 this.ForceInterval = forceInterval;
             } else {
                 // Default should be true
                 this.ForceInterval = true;
-            }
-
-            // Get debug-test run one-time setting from config, default is false
-            bool debugTestRunOneTime;
-            if (bool.TryParse(ConfigurationManager.AppSettings[Constants.Configuration.DebugTestRunOneTime], out debugTestRunOneTime)) {
-                this.DebugTestRunOneTime = debugTestRunOneTime;
             }
 
             // Get the StartAt value from config - the service would fail if this value occurs in the past for the current day
@@ -101,13 +87,12 @@ namespace EmptyWindowsService {
                 // Check if this value is not equal to "[Now]"
                 if (!startAtParameter.Equals(Constants.StartNow, StringComparison.InvariantCultureIgnoreCase)) {
 
-                    DateTime startTimeValue;
 
                     var now = DateTime.UtcNow;
                     var cultureInfo = CultureInfo.InvariantCulture;
 
                     // Try and parse the date time value from configuration as a full date-time value
-                    if (DateTime.TryParseExact(startAtParameter, Constants.FullDateTimeFormat, cultureInfo, DateTimeStyles.None, out startTimeValue)) {
+                    if (DateTime.TryParseExact(startAtParameter, Constants.FullDateTimeFormat, cultureInfo, DateTimeStyles.None, out DateTime startTimeValue)) {
 
                         // Set the startAt parameter to specified time
                         this.StartAt = startTimeValue;
@@ -186,12 +171,6 @@ namespace EmptyWindowsService {
 
         /// <summary>Whether this application should force the wait interval after finishing one iteration, or not</summary>
         internal bool ForceInterval { get; private set; }
-
-        /// <summary>Whether we need to force/debug a test mail to be sent out when the system comes up</summary>
-        internal bool DebugTestRunOneTime { get; private set; }
-
-        /// <summary>Mail Credentials (send mail on-behalf-of)</summary>
-        internal string MailCredentials { get; private set; }
 
         /// <summary>Connection String to MySQL DB</summary>
         internal string ConnectionString { get; private set; }

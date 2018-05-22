@@ -11,11 +11,6 @@
 namespace EmptyWindowsService {
 
     #region Using directives
-    using System;
-    using System.Collections.Generic;
-    using System.Configuration;
-    using System.Diagnostics;
-    using System.Linq;
     using System.Text;
 
     using MySql.Data.MySqlClient;
@@ -131,7 +126,7 @@ namespace EmptyWindowsService {
             bool connected = false;
 
             try {
-
+                // Attempt connection
                 this.connection.Open();
 
                 connected = true;

@@ -13,14 +13,11 @@ namespace EmptyWindowsService {
     #region Using directives
     using System;
     using System.Diagnostics;
-    using System.IO;
-    using System.Text;
-
     #endregion
 
     #region Daemon class
     /// <summary>
-    /// Daemon class to perform checking for mails, and dispatch them via Exchange Web Services
+    /// Daemon class to perform task of fetching next random city from DB, and writing to event log
     /// </summary>
     internal class Daemon {
 

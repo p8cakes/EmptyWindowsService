@@ -28,7 +28,7 @@ namespace EmptyWindowsService {
         }
 
         /// <summary>
-        /// PostDaemonException constructed with message
+        /// EmptyException constructed with message
         /// </summary>
         /// <param name="message">Exception message</param>
         internal EmptyException(string message)
@@ -36,7 +36,7 @@ namespace EmptyWindowsService {
         }
 
         /// <summary>
-        /// PostDaemonException constructed with message and innerException
+        /// EmptyException constructed with message and innerException
         /// </summary>
         /// <param name="message">Exception message</param>
         /// <param name="innerException">Inner Exception instance</param>

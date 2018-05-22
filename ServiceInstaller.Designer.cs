@@ -88,8 +88,8 @@ namespace EmptyWindowsService {
         private void serviceInstaller_AfterInstall(object sender, System.Configuration.Install.InstallEventArgs e) {
 
             // Get current privilege
-            WindowsIdentity identity = WindowsIdentity.GetCurrent();
-            WindowsPrincipal principal = new WindowsPrincipal(identity);
+            var identity = WindowsIdentity.GetCurrent();
+            var principal = new WindowsPrincipal(identity);
 
             // Create event source if it does not exist, and we have administrator privileges
             if (principal.IsInRole(WindowsBuiltInRole.Administrator)) {
@@ -98,7 +98,7 @@ namespace EmptyWindowsService {
                 }
             }
 
-            ServiceController sc = new ServiceController(Constants.System.NtServiceName);
+            var sc = new ServiceController(Constants.System.NtServiceName);
             sc.Start();
         }
         #endregion

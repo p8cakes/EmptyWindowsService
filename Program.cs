@@ -38,14 +38,14 @@ namespace EmptyWindowsService {
             foreach (var arg in args) {
 
                 // We won't launch the service if we have a -debug option in the command line (case insensitive)
-                if (String.Equals(arg, Constants.DebugOption, StringComparison.InvariantCultureIgnoreCase)) {
+                if (string.Equals(arg, Constants.DebugOption, StringComparison.InvariantCultureIgnoreCase)) {
                     launchService = false;
                 }
             }
 
             // Launch service as-is
             if (launchService) {
-                ServiceBase[] ServicesToRun = new ServiceBase[] {
+                var ServicesToRun = new ServiceBase[] {
                     new EmptyService()
                 };
 
