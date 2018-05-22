@@ -67,7 +67,7 @@ namespace EmptyWindowsService {
             this.serviceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
 
             // serviceProcessInstaller
-            this.serviceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.NetworkService;
+            this.serviceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
 
             // ServiceInstaller
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
