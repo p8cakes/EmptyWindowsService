@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Net;
+using System.Runtime.Serialization;
+using System.Runtime.Serialization.Json;
+using System.ServiceProcess;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace ExpediaGroup.ERS.PhooeyDuckService {
+
+    [DataContract]
+    class RequestData {
+        [DataMember(Name = "request")]
+        internal UserData userData;
+
+        internal RequestData() {
+            this.userData = new UserData();
+        }
+
+        internal uint? UserId {
+            get {
+                return this.userData.UserId;
+            }
+            set {
+                this.userData.UserId = value;
+            }
+        }
+    }
+
+    [DataContract]
+    class UserData {
+        [DataMember(Name = "userId")]
+        internal uint? UserId;
+    }
+
+    static class Program {
+        /// <summary>
+        /// The main entry point for the application.
+        /// </summary>
+        static void Main() {
+
+            var uri = "https://chelskrishna002.karmalab.net/services/addUser.php";
+
+            var webRequest = (HttpWebRequest)WebRequest.Create(uri);
+            webRequest.ServerCertificateValidationCallback = delegate { return true; };
+
+            webRequest.Timeout = 20000;
+            webRequest.ContentType = "application/json";
+            webRequest.Headers.Add("ApiKey", "563710c4c9a9480ea4c0693d1893a27f");
+            webRequest.Method = "POST";
+
+            using (var streamWriter = new StreamWriter(webRequest.GetRequestStream())) {
+
+                var request = new RequestData() {
+                    UserId = 2
+                };
+
+                using (var stream = new MemoryStream()) {
+                    var serializer = new DataContractJsonSerializer(typeof(RequestData));
+                    serializer.WriteObject(stream, request);
+
+                    stream.Position = 0;
+
+                    stream.CopyTo(streamWriter.BaseStream);
+                    streamWriter.Flush();
+                    streamWriter.Close();
+                }
+            }
+
+            var response = webRequest.GetResponse();
+            using (var streamReader = new StreamReader(response.GetResponseStream())) {
+                var result = streamReader.ReadToEnd();
+            }
+
+            /*
+            var uri = "https://chelskrishna002.karmalab.net/";
+
+            HttpWebRequest request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            request.ServerCertificateValidationCallback = delegate { return true; };
+
+            var response = request.GetResponse();
+            using (var reader = new StreamReader(response.GetResponseStream())) {
+                var content = reader.ReadToEnd();
+            }
+
+            ServiceBase[] ServicesToRun;
+            ServicesToRun = new ServiceBase[]
+            {
+                new PhooeyDuckServiceMain()
+            };
+            ServiceBase.Run(ServicesToRun);
+            */
+        }
+    }
+}
