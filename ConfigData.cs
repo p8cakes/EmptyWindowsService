@@ -1,4 +1,4 @@
-﻿/****************************** Module Header ******************************
+/****************************** Module Header ******************************
  * Module Name:  Empty Windows Service project.
  * Project:      Empty Windows Service - extend and employ as necessary
  *
@@ -6,7 +6,7 @@
  *
  * Revisions:
  *     1. Sundar Krishnamurthy         sundar@passion8cakes.com             04/22/2016       Initial file created.
-***************************************************************************/
+ ***************************************************************************/
 
 namespace EmptyWindowsService {
 
@@ -86,7 +86,6 @@ namespace EmptyWindowsService {
 
                 // Check if this value is not equal to "[Now]"
                 if (!startAtParameter.Equals(Constants.StartNow, StringComparison.InvariantCultureIgnoreCase)) {
-
 
                     var now = DateTime.UtcNow;
                     var cultureInfo = CultureInfo.InvariantCulture;
