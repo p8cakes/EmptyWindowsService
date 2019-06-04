@@ -1,4 +1,4 @@
-﻿/****************************** Module Header ******************************
+/****************************** Module Header ******************************
  * Module Name:  Empty Windows Service project.
  * Project:      Empty Windows Service - extend and employ as necessary
  *
