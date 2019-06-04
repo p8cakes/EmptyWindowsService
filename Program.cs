@@ -1,4 +1,4 @@
-﻿/****************************** Module Header ******************************
+/****************************** Module Header ******************************
  * Module Name:  Empty Windows Service project.
  * Project:      Empty Windows Service - extend and employ as necessary
  *
@@ -6,6 +6,7 @@
  *
  * Revisions:
  *     1. Sundar Krishnamurthy         sundar@passion8cakes.com             04/22/2016       Initial file created.
+ *     2. Sundar Krishnamurthy         sundar@passion8cakes.com             05/31/2019       Create event log sources, no matter if running in debug mode or not
 ***************************************************************************/
 
 namespace EmptyWindowsService {
@@ -43,6 +44,19 @@ namespace EmptyWindowsService {
                 }
             }
 
+            // Get current privilege
+            var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
+            var principal = new System.Security.Principal.WindowsPrincipal(identity);
+
+            // Create event source if it does not exist, and we have administrator privileges - check the latter condition first!
+            if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator)) {
+
+                // Create if this does not exist
+                if (!System.Diagnostics.EventLog.SourceExists(Constants.System.NtServiceName)) {
+                    System.Diagnostics.EventLog.CreateEventSource(Constants.System.NtServiceName, Constants.System.Application);
+                }
+            }
+
             // Launch service as-is
             if (launchService) {
                 var ServicesToRun = new ServiceBase[] {
@@ -51,20 +65,6 @@ namespace EmptyWindowsService {
 
                 ServiceBase.Run(ServicesToRun);
             } else {
-
-                // Get current privilege
-                var identity = System.Security.Principal.WindowsIdentity.GetCurrent();
-                var principal = new System.Security.Principal.WindowsPrincipal(identity);
-
-                // Create event source if it does not exist, and we have administrator privileges - check the latter condition first!
-                if (principal.IsInRole(System.Security.Principal.WindowsBuiltInRole.Administrator)) {
-
-                    // Create if this does not exist
-                    if (!System.Diagnostics.EventLog.SourceExists(Constants.System.NtServiceName)) {
-                        System.Diagnostics.EventLog.CreateEventSource(Constants.System.NtServiceName, Constants.System.Application);
-                    }
-                }
-
                 // Invoke Start manually in main thread
                 var windowsService = new EmptyService();
                 windowsService.Start(args, debugFlag: true);
